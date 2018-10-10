@@ -14,7 +14,7 @@ class App extends Component {
   };
 
   handleDelete = event => {
-    var newTodoList = [...this.state.todos]; 
+    var newTodoList = [...this.state.todos];
     var index = newTodoList.indexOf(event.target.value);
     newTodoList.splice(index, 1);
     this.setState({todos: newTodoList});
@@ -32,6 +32,16 @@ class App extends Component {
     });
   };
 
+  handleReplace = event => {
+    event.preventDefault();
+    var newTodoList = [...this.state.todos];
+    var index = newTodoList.indexOf(event.target.todo);
+    newTodoList[index] = this.state.newTodo;
+    this.setState({
+      todos: newTodoList
+    });
+  };
+
   render() {
     return (
       <div>
@@ -41,18 +51,17 @@ class App extends Component {
             <li key={todo}>
               {todo + " "}
               <button  value={todo} onClick={this.handleDelete}>X</button>
+              <form onSubmit={this.handleReplace}>
+                <input
+                  type="text"
+                  value={this.state.newTodo}
+                  onChange={this.handleChange}
+                />
+                <button onClick={this.handleReplace}> + </button>
+              </form>
             </li>
           </div>
         ))}
-
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            value={this.state.newTodo}
-            onChange={this.handleChange}
-          />
-          <button onClick={this.handleSubmit}> + </button>
-        </form>
       </div>
     );
   }
